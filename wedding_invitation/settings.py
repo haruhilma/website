@@ -78,8 +78,11 @@ WSGI_APPLICATION = 'wedding_invitation.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': "wedding",
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'wedding',
+        'USER' : 'postgres',
+        'PASSWORD' : 'st3vanus',
+        'HOST' : 'localhost'
     }
 }
 
