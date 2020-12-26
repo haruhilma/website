@@ -9,7 +9,7 @@
     <div class="c-hero-banner c-hero-banner--main">
         <div class="cover"></div>
         <div class="c-hero-banner__section c-hero-banner__image">
-            <img class="lazyload" src="{% static 'img/banner.jpg' %}" alt="image">
+            {{banner.bannerFront}}
         </div>
         <div class="mask">
             <img src="{% static 'img/mask.png' %}" alt="">
@@ -26,7 +26,7 @@
             <img src="{% static 'img/story-flowers.png' %}" alt="flowers">
         </div>
         <h1 class="title">Love story</h1>
-        <p class="m-auto">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p class="m-auto">{{ story.setting_story_content }}</p>
     </div>
 </section>
 <!-- Section Date -->
@@ -37,29 +37,10 @@
         </div>
         <div class="date-section__block">
             <div class="d-inline-block">
-                <h2 class="title--special">June 11th, 2019</h2>
+                <h2 class="title--special" style="font-size: 34px;">{{ story.setting_schedule }}</h2>
                 <h3 class="date-section__place">
-                    The Riverside Church<br>
-                    New York, USA
+                    {{ story.setting_location }}
                 </h3>
-            </div>
-        </div>
-        <div id="timer" class="timer d-flex justify-content-center">
-            <div class="timer-item">
-                <span class="days timer__digit"></span>
-                <div class="timer__text">days</div>
-            </div>
-            <div class="timer-item">
-                <span class="hours timer__digit"></span>
-                <div class="timer__text">hours</div>
-            </div>
-            <div class="timer-item">
-                <span class="minutes timer__digit"></span>
-                <div class="timer__text">minutes</div>
-            </div>
-            <div class="timer-item">
-                <span class="seconds timer__digit"></span>
-                <div class="timer__text">seconds</div>
             </div>
         </div>
     </div>
@@ -71,62 +52,38 @@
         <p class="subtitle mx-auto">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         <div id="accordion">
             <div class="accordion__header d-flex justify-content-center">
-                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Ceremony
-                </button>
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Dinner
-                </button>
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Party
-                </button>
+
+                {% for item in cat %}
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#cat-{{ item.id }}" aria-expanded="true" aria-controls="cat-{{ item.id }}">
+                        {{ item.kategori_title }}
+                    </button>
+                {% endfor %}
             </div>
             <div class="accordion__body">
-                <div id="collapseOne" class="collapse show" data-parent="#accordion">
+                {% for a in cat %}
+                    {% for item in a.kategori.all %} 
+                    {% if a.id == 1 %}
+                    <div id="cat-{{a.id}}" class="collapse show" data-parent="#accordion">
+                    {% else %}
+                     <div id="cat-{{a.id}}" class="collapse " data-parent="#accordion">
+                    {% endif %}
+                
                     <div class="row">
-                        <h2 class="accordion__item-heading">Ceremony</h2>
+                        
+                        <h2 class="accordion__item-heading">{{ item.event_id_kategori }}</h2>
                         <div class="col-md-6">
-                            <img class="accordion__item-img" src="{% static 'img/ceremony.png' %}" alt="ceremony">
+                            {{ item.eventImagesFront }}
                         </div>
                         <div class="col-md-6 text-left">
-                            <h3 class="accordion__item-subheading">When and Where</h3>
-                            <p class="d-flex align-items-center"><i class="fa fa-2x fa-map-marker align-middle pr-1"></i>W Hotel, 1423 Hobart St, Pittsburgh, PA, 15217</p>
-                            <p class="d-flex align-items-center"><i class="fa fa-2x fa-clock-o align-middle pr-1"></i>09:00 - 10:30, Sep 15, 2018 </p>
+                            <h3 class="accordion__item-subheading">{{ item.event_title }}</h3>
+                            <p class="d-flex align-items-center"><i class="fa fa-2x fa-map-marker align-middle pr-1"></i>{{ item.event_location }}</p>
+                            <p class="d-flex align-items-center"><i class="fa fa-2x fa-clock-o align-middle pr-1"></i>{{ item.event_shedule }}</p>
                             <p class="font-weight-bold">Keep it classy</p>
-                            <div class="btn btn-outline-dark rounded-0 px-2 py-1">View on map</div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                <div id="collapseTwo" class="collapse" data-parent="#accordion">
-                    <div class="row">
-                        <h2 class="accordion__item-heading">Dinner</h2>
-                        <div class="col-md-6">
-                            <img class="accordion__item-img" src="{% static 'img/dinner.jpg' %}" alt="ceremony">
-                        </div>
-                        <div class="col-md-6 text-left">
-                            <h3 class="accordion__item-subheading">When and Where</h3>
-                            <p class="d-flex align-items-center"><i class="fa fa-2x fa-map-marker align-middle pr-1"></i>W Hotel, 1423 Hobart St, Pittsburgh, PA, 15217</p>
-                            <p class="d-flex align-items-center"><i class="fa fa-2x fa-clock-o align-middle pr-1"></i>17:00 - 21:00, Sep 15, 2018 </p>
-                            <p class="font-weight-bold">Keep it classy</p>
-                            <div class="btn btn-outline-dark rounded-0 px-2 py-1">View on map</div>
-                        </div>
-                    </div>
-                </div>
-                <div id="collapseThree" class="collapse" data-parent="#accordion">
-                    <div class="row">
-                        <h2 class="accordion__item-heading">Party</h2>
-                        <div class="col-md-6">
-                            <img class="accordion__item-img" src="{% static 'img/party.jpg' %}" alt="ceremony">
-                        </div>
-                        <div class="col-md-6 text-left">
-                            <h3 class="accordion__item-subheading">When and Where</h3>
-                            <p class="d-flex align-items-center"><i class="fa fa-2x fa-map-marker align-middle pr-1"></i>W Hotel, 1423 Hobart St, Pittsburgh, PA, 15217</p>
-                            <p class="d-flex align-items-center"><i class="fa fa-2x fa-clock-o align-middle pr-1"></i>21:00 - 00:00, Sep 15, 2018 </p>
-                            <p class="font-weight-bold">Keep it classy</p>
-                            <div class="btn btn-outline-dark rounded-0 px-2 py-1">View on map</div>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
         
@@ -145,21 +102,13 @@
         <p class="subtitle mx-auto">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         <div class="gallery__slider">
             <div class="slick-gallery slick mb-0">
+
+                {% for item in gallery %}
                 <div class="slider__item">
-                    <img src="{% static 'img/slider/gallery-1.jpg' %}" alt="slider">
+                    {{ item.imagesFront  }}
                 </div>
-                <div class="slider__item">
-                    <img src="{% static 'img/slider/gallery-2.jpg' %}" alt="slider">
-                </div>
-                <div class="slider__item">
-                    <img src="{% static 'img/slider/gallery-3.jpg' %}" alt="slider">
-                </div>
-                <div class="slider__item">
-                    <img src="{% static 'img/slider/gallery-4.jpg' %}" alt="slider">
-                </div>
-                <div class="slider__item">
-                    <img src="{% static 'img/slider/gallery-5.jpg' %}" alt="slider">
-                </div>
+                {% endfor %}
+                
             </div>
             <div class="gallery__slider-num d-none d-lg-flex">
                 <div class="gallery__slider-current pr-1"></div>
@@ -179,20 +128,21 @@
             <div class="col-sm-12 col-md-8 align-self-center">
                 <h2 class="title">RSVP</h2>
                 <h6 class="text-uppercase font-weight-bold mb-0">Will you attend?</h6>
-                <form id="rsvp-form" action="http://pavlyukpetr.com/projects/wedding-flowers/form.php" method="post">
+                <form id="rsvp-form" action="/postRsvp" method="post">
+                    {% csrf_token %}
                     <div class="row">
                         <div class="col-md-8 mb-3 m-md-0">
                             <div class="form-group">
-                                <label class="control-label" for="inputName">Your name</label>
-                                <input type="text" class="form-control" id="inputName" required>
+                                <label class="control-label" for="inputName"></label>
+                                <input type="text" class="form-control" name="name" id="inputName" placeholder="Your name" required>
                             </div>
                             <div class="form-group">
-                                <label class="control-label" for="inputFriendName">Who is comming with you</label>
-                                <input type="text" class="form-control" id="inputFriendName" required>
+                                <label class="control-label" for="inputFriendName"></label>
+                                <input type="text" class="form-control" name="relation" id="inputFriendName"  placeholder="Who is comming with you" required>
                             </div>
                             <div class="form-group">
-                                <label class="control-label" for="inputNumber">Your phone or email</label>
-                                <input type="text" class="form-control" id="inputNumber">
+                                <label class="control-label" for="inputNumber"></label>
+                                <input type="text" class="form-control" name="email" placeholder="Your email"  id="inputNumber">
                             </div>
                         </div>
                         <div class="col-md-4 align-self-end">
@@ -209,4 +159,60 @@
         </div>
     </div>
 </section>
+
+<footer class="section">
+    <div class="container text-white position-relative">
+        <div class="footer__title">
+            <div class="text-center">{{ story.setting_footer_title }}</div>
+            <div class="text-center">{{ story.setting_nama_pria }} and {{ story.setting_nama_perempuan }}</div>
+        </div>
+        <div class="row pb-4">
+            <div class="col-md-12 text-justify">
+                <p>{{ story.setting_footer_content }}</p>
+            </div>
+        </div>
+        <div class="row pb-4">
+            <div class="col-md-12 border p-1 mx-1">
+                <ul class="d-sm-flex justify-content-center">
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" href="#">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" href="#cases">Gallery</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" href="#donations">Testimanials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link page-scroll" href="#news">Contacts</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-12 border border-bottom-0 border-top-0 mx-1">
+                <div class="row">
+                    <div class="col-md-4 text-center border-right border-bottom px-0">
+                        <div class="pt-1 pb-1">
+                            <i class="fa fa-phone fa-3x"></i>
+                        </div>
+                        <div class="pb-1">{{ story.setting_contact }}</div>
+                    </div>
+                    <div class="col-md-4 text-center border-right border-bottom px-0">
+                        <div class="pt-1 pb-1">
+                            <i class="fa fa-map-marker fa-3x"></i>
+                        </div>
+                        <div class="pb-1">{{ story.setting_location }}</div>
+                    </div>
+                    <div class="col-md-4 text-center border-bottom px-0">
+                        <div class="pt-1 pb-1">
+                            <i class="fa fa-envelope-o fa-3x"></i>
+                        </div>
+                        <div class="pb-1">{{ story.setting_email }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright text-center">&copy; Copyright 2019. All right Reserved.</div>
+    </div>
+</footer>
+
 {% endblock %}
